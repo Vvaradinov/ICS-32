@@ -4,11 +4,14 @@ import shutil
 
 
 def Search():
-    first_input = input()
-    try:
-        os.listdir(first_input)
-    except FileNotFoundError:
-        print("Error!")
+    while True:
+        try:
+            first_input = input()
+            os.listdir(first_input)
+        except FileNotFoundError:
+            print("Error!")
+        else:
+            break
     second_input = input().split()
     interesting_files_list = []
     for file in os.listdir(first_input):
@@ -25,6 +28,7 @@ def Search():
         if third_input == "P":
             print(os.path.abspath(obj))
         elif third_input == "F":
+            print(os.path.abspath(obj))
             infile = open(pathname_2,"r").readline()
             print(infile)
         elif third_input == "D":
