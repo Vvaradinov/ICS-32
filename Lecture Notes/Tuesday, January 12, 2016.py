@@ -13,7 +13,7 @@ def sum_numbers(numlist: [[int]]) -> int:
             total += num
     return total
 
-assert(sum_numbers([1,2,3,4,5] == 15)
+assert(sum_numbers([1,2,3,4,5] == 15))
 assert(sum_numbers([]) == 0)
 
 
