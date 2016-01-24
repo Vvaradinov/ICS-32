@@ -37,7 +37,7 @@ def sum_numbers(numlist: [int or [int]]) -> int:
 #    * an integer
 #    * a nested list of integers
 
-def sum_numbers(numlist: "nested list of integers") -> int:
+def sum_of_numbers(numlist: "nested list of integers") -> int:
     total = 0
     for element in numlist:
         if type(element) == int:
@@ -45,9 +45,4 @@ def sum_numbers(numlist: "nested list of integers") -> int:
         else:
             total += sum_numbers(element) # recursion leap of faith
 
-
-
-
-
-
-    return total
+        return total
