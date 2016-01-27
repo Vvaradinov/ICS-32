@@ -7,7 +7,7 @@
 # receive bytes can be cumbersome when our goal is to send and receive
 # text.  It should always be our goal to find a better tool for a job
 # when there is one -- or to build ourselves a better tool when there
-# isn't
+ # isn't
 #
 # Fortunately, a better tool exists: we can ask a socket object to
 # give us a "pseudo-file object," an object that behaves just like a
