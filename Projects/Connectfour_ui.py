@@ -37,14 +37,16 @@ def commands() -> "Users Input":
 
 def drop_to_board(game_state, column_num):
     """
-    Drops obj to the board, and updates the board. if invalid move is made raises Error
+    Drops obj to the board, and updates the board.
+    If invalid move is made raises Error
     """
     return connectfour.drop(game_state,column_num)
 
 
 def pop_out_of_board(game_state,column_num):
     """
-    Pops obj out of the board and updates the board. If invalid move is made raises Error
+    Pops obj out of the board and updates the board.
+    If invalid move is made raises Error
     """
     return connectfour.pop(game_state,column_num)
 

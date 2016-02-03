@@ -29,8 +29,51 @@ def user_sign_in(connection: ServerConnection, user_name: str) -> None:
     """
     User login prompt in order to proceed with the game
     """
+    _write_line(connection, "I32CFSP_HELLO" + " " + user_name)
+    _outcome_(connection, "WELCOME" + " " + user_name)
 
 
+def AI_request(connection: ServerConnection) -> None:
+    """
+    Requests a game to start with an artificial intelligence
+    After the AI is ready it will say "READY"
+    """
+    _write_line(connection, "AI_GAME")
+    _outcome_(connection, "READY")
+
+
+def server_commands(connection: ServerConnection, player_commands: str):
+    """
+    Sends the server our commands and responds with the commands of the AI
+    If the action is invalid it will re-prompt the user
+    """
+    start_line = player_commands.strip().upper()
+    start_word = player_commands.split()
+    _write_line(connection,start_line)
+    check = _read_line(connection)
+
+    if check == "OKAY":
+        ai_response_line = _read_line(connection).split()
+        if ai_response_line == ["WINNER_RED"]:
+            return "Player Wins"
+        ai_answer = ai_response_line[0]
+        ai_colum = int(ai_response_line[1]) - 1
+        print("AI: " + ai_answer + " " + str(ai_colum + 1) )
+        done = _read_line(connection)
+
+        if done == "READY":
+            return ServerResponse(response = ai_answer, col_num =  ai_colum)
+        else:
+            _outcome_(connection, "READY")
+            print("Invalid.")
+
+def close_server(connection: ServerConnection) -> None:
+    """
+    Closing server connection
+    """
+    connection.socket.close()
+    connection.input.close()
+    connection.output.close()
 
 
 def _write_line(connection: ServerConnection, line: str) -> None:
@@ -58,3 +101,4 @@ def _outcome_(connection: ServerConnection, outcome: str) -> None:
     if line != outcome:
         print(line)
         raise ServerError()
+
