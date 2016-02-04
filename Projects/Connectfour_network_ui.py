@@ -1,6 +1,8 @@
+# Vladislav Varadinov  32979197 #Linxuan Xin 11311415
 import Connectfour_ui
 import ICS32CFSP
 import connectfour
+import common_functions
 
 
 def _welcome_banner():
@@ -55,26 +57,39 @@ def _game_start(connection: ICS32CFSP.ServerConnection):
     Starts the game with the visual board vs the AI.
     Input a move and the server responds with a move.
     """
+    game_state = connectfour.new_game()
+    common_functions.game_board(game_state)
+    while True:
+        game_state, message = common_functions.make_choice(game_state, common_functions.drop_or_pop(), common_functions.col_num())
+        AI_message = ICS32CFSP.server_commands(connection, message)
+        if type(AI_message) == tuple:
+            game_state = common_functions.get_state(AI_message, game_state)
+            common_functions.game_board(game_state)
+        elif AI_message == 'Player wins!':
+            print('-------------------------Final State---------------------------')
+            common_functions.game_board(game_state)
+            print('\r\nPlayer wins!\nGame Over. Congratulation!')
+        else:
+            try:
+                game_state = common_functions.get_state(AI_message, game_state)
+            except:
+                print('Connection Error.')
+
+        print('-------------------------New State----------------------------')
+        common_functions.game_board(game_state)
+
 
 def user_interface():
     """
-     User interface of the game. Enter username and
+     User interface of the game.
     """
-    connection = ICS32CFSP.Connect(_server_prompt(),_port_prompt())
-    username = _ask_for_username()
-    _welcome_banner()
-    ICS32CFSP.user_sign_in(connection, username)
-    ICS32CFSP.AI_request(connection)
-    GameState = connectfour.new_game()
-    BoardState = Connectfour_ui.game_board(GameState)
     while True:
-        ICS32CFSP.server_commands(connection,input("Where do you wanna drop: "))
-
-
-
-
-
-
+        print('This is ConnectFour Game!' )
+        connection = ICS32CFSP.Connect(_server_prompt(), _port_prompt())
+        username = _ask_for_username()
+        ICS32CFSP.user_sign_in(connection, username)
+        ICS32CFSP.AI_request(connection)
+        _game_start(connection)
 
 
 
