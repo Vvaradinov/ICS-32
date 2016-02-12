@@ -1,0 +1,21 @@
+URL's with query parameters
+---------------------------
+
+
+https://www.youtube.com/results?search_query=lakers+clippers
+
+http://www.blah.com/blah/blah?param1=value1&param2=value2&param3=value3
+                             ----------------
+                             query parameters
+percent encoding
+URL encoding
+        replace each space with +
+        replace other special characters with %XX
+                where XX is the hexadecimal number for that character's code
+
+hexadecimal (base 16): 0123456789ABCDEF
+
+
+googleapis.com/youtube/v3/search?key=    %type=video&part=snippet&maxResults=10&q=lakers+clippers
+
+JavaScript Object Notation (JSON)
