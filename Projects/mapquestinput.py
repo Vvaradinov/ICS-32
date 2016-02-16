@@ -28,7 +28,7 @@ def get_elevation(lat_long: str)-> str:
     and returns the url for the elevation API
     """
     query_parameters = [
-        ("key", MAPQUEST_API),("latLngCollection",(lat_long))
+        ("key", MAPQUEST_API),("unit","f"),("latLngCollection",(lat_long))
 
     ]
     return API_ELEVATION + "profile?" + urllib.parse.urlencode(query_parameters)

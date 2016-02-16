@@ -5,6 +5,11 @@ import mapquestinput
 
 
 class elevation:
+    """
+    Elevation class that returns the elevation
+    for every city individually instead
+    of return the elevation of the whole route
+    """
     def output(self, json_output):
         print()
         print("ELEVATION")
@@ -13,15 +18,24 @@ class elevation:
             lat_long_single = str(lat_long_list[obj]) + "," + str(lat_long_list[obj + 1])
             json_file = mapquestinput.convert_to_python_obj(mapquestinput.get_elevation(lat_long_single))
             for obj1 in json_file["elevationProfile"]:
-                print(round(int(obj1["height"])* 3.28084))
+                print((round(obj1["height"])))
 
 
 class total_distance:
+    """
+    Total Distance class
+    returns the total distance of the route
+    """
     def output(self, json_output):
         print("TOTAL DISTANCE:",round(json_output["route"]["distance"]),"miles")
 
 
 class narrative_directions:
+    """
+    Narrative Directions class
+    returns the step by step directions
+    to the destination (GPS format)
+    """
     def output(self, json_output):
         print("DIRECTIONS")
         for obj in json_output["route"]["legs"]:
@@ -31,12 +45,22 @@ class narrative_directions:
 
 
 class total_time:
+    """
+    Total Time class
+    returns the estameted time
+    of the route
+    """
     def output(self, json_output):
         data = json_output["route"]["time"] / 60
         print("TOTAL TIME:",round(data), "minutes")
         print()
 
 class lat_and_long:
+    """
+    Lat and Lng class
+    returns the formatted Lat and Lng
+    with the compass directions
+    """
     def output(self, json_output):
         data = json_output["route"]["locations"]
         print("LATLONGS")
