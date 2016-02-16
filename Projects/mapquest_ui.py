@@ -1,7 +1,10 @@
 # Vladislav Varadinov 32979197
 import mapquestinput
+import mapquestoutput
 def trip_locations():
     """
+    User input for the number of locations
+    as well as the cities or streets
     """
     number_input = int(input())
     if number_input < 2:
@@ -10,23 +13,28 @@ def trip_locations():
     location_list = []
     for obj in range(number_input):
         location_list.append(input())
-        print(location_list)
     return location_list
 
-
-
-
-
-def num_of_outputs()-> int:
+def action_outputs():
     """
-    Specify how many outputs the user wants to generate from the API
+    User input for the number of outputs
+    as well as the specific outputs the user wants
     """
-    user_input = int(input())
-    if user_input < 1:
-        print("Error")
-        return num_of_outputs()
-    else:
-        return int(user_input)
+    number_input = int(input())
+    if number_input > 5:
+        print("ERROR")
+        return action_outputs()
+    output_list = []
+    for obj in range(number_input):
+        output_list.append(input())
+    return output_list
+
+
 
 if __name__ == "__main__":
-   print(mapquestinput.make_a_search(trip_locations()))
+    mapquestoutput.start(mapquestinput.convert_to_python_obj
+                         (mapquestinput.make_a_search(trip_locations())),
+                         mapquestoutput.sorted_output(action_outputs()))
+    print()
+    print("Directions Courtesy of MapQuest; Map Data Copyright OpenStreetMap Contributors")
+
