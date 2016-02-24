@@ -1,90 +1,50 @@
 # 32979197 Vladislav Varadinov
 
 import collections
-import Othello_ui
+
 
 NONE = "."
 WHITE = "W"
 BLACK = "B"
-"""
-class GameLogic():
 
-    The main game logic class
-    consisting of all the
-    logical methods
-    """
-def insert_check(board:list,selection:list):
+
+
+
+class GameLogic():
+    def __init__(self,board:list,INPUTS:list,turn:str):
+        self._board = new_othello_board(INPUTS)
+        self._turn = INPUTS[2]
+
+
+
+
+
+def insert_check(board:list,selection: [int]) -> "Game Board":
     """
     Checks if the insertion we make
     is legal- meaning is the spot free
     to put a new a chip or is there a chip already there
     """
-    while True:
-        row_num = selection[0] - 1
-        column_num = selection[1] -1
-        if board[row_num][column_num] == WHITE or board[row_num][column_num] == BLACK:
-            print("INVALID")
-        elif board[row_num][column_num] == NONE:
-            board[row_num][column_num] = WHITE
-            print(board)
+
+    row_num = selection[0] - 1
+    column_num = selection[1] -1
+    current_turn = player_turn(board[2])
+    if board[row_num][column_num] == NONE:
+        board[row_num][column_num] = current_turn
+
+        return board
+
+    elif board[row_num][column_num] == WHITE or board[row_num][column_num] == BLACK:
+        print("INVALID")
+        return board
+    current_turn = player_turn(current_turn)
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def _othello_board_(INPUTS:list):
+def new_othello_board(INPUTS:list)-> [[str]]:
     """
     Makes an othello board that is a 2D list
     depending on the ROW and COL input
@@ -97,20 +57,7 @@ def _othello_board_(INPUTS:list):
 
     return board
 
-def _player_turn(selection:str): # still under construction
-    """                          # might not work
-    Keeps track of who's turn
-    it is at any given time
-    during the game play
-    """
-    state = " "
-    if selection[0] == BLACK:
-        state = BLACK
-    elif selection[0] == WHITE:
-        state = WHITE
-    print(state)
-
-def _initial_four_chips_(board: list,selection: str):
+def initial_four_chips(board: list,selection: str) -> "Game Board":
     """
     Inserts the initial 4 chips into the
     middle of the board depending on the
@@ -118,9 +65,9 @@ def _initial_four_chips_(board: list,selection: str):
     """
     row_num = int(len(board)/2)
     column_num = int(len(board[0])/2)
-    #print([row_num-1,column_num-1],[row_num-1,column_num],[row_num,column_num-1],[row_num,column_num])
+
     board[row_num-1][column_num-1] = NONE
-    if selection[1] == BLACK:
+    if selection[3] == BLACK:
         board[row_num-1][column_num-1] = BLACK
         board[row_num-1][column_num] = WHITE
         board[row_num][column_num-1] = WHITE
@@ -132,9 +79,9 @@ def _initial_four_chips_(board: list,selection: str):
         board[row_num][column_num] = WHITE
     return board
 
-#print(_initial_four_chips_(_othello_board_(4,4),"B"))
 
-def _visual_othello_board_(board: list):
+
+def visual_othello_board(board: list) -> "Visual Game Board":
     """
     Makes a visual board
     suitable for game play
@@ -144,17 +91,17 @@ def _visual_othello_board_(board: list):
             print(obj1,end="")
         print()
 
-def count_of_chips(board:list):
+
+
+def player_turn(selection:str): # still under construction
+    """                          # might not work
+    Keeps track of who's turn
+    it is at any given time
+    during the game play
     """
-    """
-    count_black = 0
-    count_white = 0
-    for obj in board:
-        for num in obj:
-            if num == BLACK:
-                count_black += 1
-            elif num == WHITE:
-                count_white += 1
-    print("B:",count_black, "W:",count_white)
-while True:
-    (insert_check(_othello_board_([4,4]),Othello_ui.insert_input()))
+    if selection == BLACK:
+        return WHITE
+    else:
+        return BLACK
+
+
