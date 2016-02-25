@@ -41,6 +41,7 @@ def count_of_chips(board:list):
 
 
 if __name__ == "__main__":
+
     choices1 = starting_inputs()
     game_board = Othello_logic.new_othello_board(choices1)
     Othello_logic.initial_four_chips(game_board,choices1)
@@ -50,11 +51,12 @@ if __name__ == "__main__":
     print("Turn:",current_turn)
     while True:
         choices = insert_input()
-        game_board = (Othello_logic.insert_check(game_board,choices))
+        game_board = (Othello_logic.insert_check(game_board,choices,current_turn))
         count_of_chips(game_board)
         Othello_logic.visual_othello_board(game_board)
         current_turn = Othello_logic.player_turn(current_turn)
         print("TURN:",current_turn)
+
 
 
 

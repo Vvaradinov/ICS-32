@@ -9,37 +9,47 @@ BLACK = "B"
 
 
 
-
 class GameLogic():
-    def __init__(self,board:list,INPUTS:list,turn:str):
-        self._board = new_othello_board(INPUTS)
-        self._turn = INPUTS[2]
+    def __init__(self,board:list,turn:str):
+        self._board = new_othello_board(board)
+        self._turn = turn
+    def player_move(self):
+        """
+        get the player input check if it's valid
+        print the entire UI
+        call list and get user input and check if it's valid move
+        after that update the update the board and turn
+        """
+        self._turn = player_turn(self._turn)
 
 
 
 
 
-def insert_check(board:list,selection: [int]) -> "Game Board":
+def insert_check(board:list,selection: [int],turn:str) -> "Game Board":
     """
     Checks if the insertion we make
     is legal- meaning is the spot free
     to put a new a chip or is there a chip already there
     """
-
     row_num = selection[0] - 1
     column_num = selection[1] -1
-    current_turn = player_turn(board[2])
+    print(board[row_num  ][column_num ])
     if board[row_num][column_num] == NONE:
-        board[row_num][column_num] = current_turn
-
+        board[row_num][column_num] = turn
         return board
 
     elif board[row_num][column_num] == WHITE or board[row_num][column_num] == BLACK:
         print("INVALID")
         return board
-    current_turn = player_turn(current_turn)
 
 
+def vertical_check(board:list,selection: [int],turn: str):
+    """
+    """
+    row_num = selection[0] - 1
+    column_num = selection[1] - 1
+    print(board[row_num][column_num])
 
 
 
