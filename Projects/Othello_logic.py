@@ -10,46 +10,87 @@ BLACK = "B"
 
 
 class GameLogic():
-    def __init__(self,board:list,turn:str):
-        self._board = new_othello_board(board)
+    def __init__(self,board:list,turn:str,selection:[int]):
+        self._board = board
+        self._selection = selection
         self._turn = turn
-    def player_move(self):
         """
+    def player_move(self):
+
         get the player input check if it's valid
         print the entire UI
         call list and get user input and check if it's valid move
         after that update the update the board and turn
+
+        self.turn = player_turn(self.turn)
         """
-        self._turn = player_turn(self._turn)
 
 
+    def insert_check(self):
+        """
+        Checks if the insertion we make
+        is legal- meaning is the spot free
+        to put a new a chip or is there a chip already there
+        """
+
+        row_num = self._selection[0] -1
+        column_num = self._selection[1] -1
+        current_turn = self._turn
+        while True:
+            if self._board[row_num][column_num] == NONE:
+                print("Valid")
+                self._board[row_num][column_num] = current_turn
+                return self._board
+            elif self._board[row_num][column_num] == WHITE or self._board[row_num][column_num] == BLACK:
+                print("Invalid")
+                return False
 
 
+    def vertical_check(self):
+        """
+        Checks the spot we are trying to put in on a vertical scale,
+        if the spot is empty --> check if the vertical line,
+        if it's the opposite color --> continue until you
+        find your color that is nearest to the spot
+        you are trying to put in and change everything
+        in between to your color!!
+        """
+        row_num = self._selection[0] - 1
+        column_num = self._selection[1] - 1
+        current_turn = self._turn
 
-def insert_check(board:list,selection: [int],turn:str) -> "Game Board":
-    """
-    Checks if the insertion we make
-    is legal- meaning is the spot free
-    to put a new a chip or is there a chip already there
-    """
-    row_num = selection[0] - 1
-    column_num = selection[1] -1
-    print(board[row_num  ][column_num ])
-    if board[row_num][column_num] == NONE:
-        board[row_num][column_num] = turn
-        return board
+        while True:
+            count = 1
+            for obj in self._board[column_num]:
+                if self._board[row_num+count][column_num] == player_turn(current_turn):
+                    self._board[row_num+count][column_num] = current_turn
+                    count += 1
+            for obj in self._board[column_num]:
+                if self._board[row_num-count][column_num] == player_turn(current_turn):
+                    self._board[row_num-count][column_num] = current_turn
+                    count += 1
 
-    elif board[row_num][column_num] == WHITE or board[row_num][column_num] == BLACK:
-        print("INVALID")
-        return board
+            break
 
 
-def vertical_check(board:list,selection: [int],turn: str):
-    """
-    """
-    row_num = selection[0] - 1
-    column_num = selection[1] - 1
-    print(board[row_num][column_num])
+    def horizontal_check(self):
+        """
+        """
+        row_num = self._selection[0] - 1
+        column_num = self._selection[1] -1
+        current_turn = self._turn
+
+        while True:
+            count = 1
+            for obj in self._board[row_num]:
+                if self._board[row_num][column_num+count] == player_turn(current_turn):
+                    self._board[row_num][column_num+count] = current_turn
+                    count+=1
+            for obj in self._board[row_num]:
+                if self._board[row_num][column_num-count] == player_turn(current_turn):
+                    self._board[row_num][column_num-count] = current_turn
+                    count +=1
+            break
 
 
 
@@ -96,6 +137,7 @@ def visual_othello_board(board: list) -> "Visual Game Board":
     Makes a visual board
     suitable for game play
     """
+
     for obj in board:
         for obj1 in obj:
             print(obj1,end="")

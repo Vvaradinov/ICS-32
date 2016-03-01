@@ -39,8 +39,30 @@ def count_of_chips(board:list):
     print("B:",count_black, "W:",count_white)
 
 
-
+"""
 if __name__ == "__main__":
+    choices1 = starting_inputs()
+    choices = insert_input()
+    game_board = Othello_logic.new_othello_board(choices1)
+    Othello_logic.initial_four_chips(game_board,choices1)
+    game_logic = Othello_logic.GameLogic(game_board,choices1,choices)
+    count_of_chips(game_board)
+    Othello_logic.visual_othello_board(game_board)
+    current_turn = choices1[2]
+    print("Turn:",current_turn)
+    while True:
+        game_logic.insert_check()
+        #game_board = (Othello_logic.insert_check(game_board,choices,current_turn))
+        count_of_chips(game_board)
+        Othello_logic.visual_othello_board(game_board)
+        current_turn = Othello_logic.player_turn(current_turn)
+        print("TURN:",current_turn)
+"""
+
+def start_game():
+    """
+    Initiates the game in UI mode
+    """
 
     choices1 = starting_inputs()
     game_board = Othello_logic.new_othello_board(choices1)
@@ -51,13 +73,18 @@ if __name__ == "__main__":
     print("Turn:",current_turn)
     while True:
         choices = insert_input()
-        game_board = (Othello_logic.insert_check(game_board,choices,current_turn))
+        game_logic = Othello_logic.GameLogic(game_board,current_turn,choices)
+        if game_logic.insert_check() == False:
+            current_turn = current_turn
+        else:
+            current_turn = Othello_logic.player_turn(current_turn)
+        game_logic.horizontal_check()
+        game_logic.vertical_check()
         count_of_chips(game_board)
         Othello_logic.visual_othello_board(game_board)
-        current_turn = Othello_logic.player_turn(current_turn)
-        print("TURN:",current_turn)
-
-
+        print("Turn:",current_turn)
+if __name__ == "__main__":
+    start_game()
 
 
 
