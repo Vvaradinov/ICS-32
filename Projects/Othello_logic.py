@@ -14,18 +14,6 @@ class GameLogic():
         self._board = board
         self._selection = selection
         self._turn = turn
-        """
-    def player_move(self):
-
-        get the player input check if it's valid
-        print the entire UI
-        call list and get user input and check if it's valid move
-        after that update the update the board and turn
-
-        self.turn = player_turn(self.turn)
-        """
-
-
     def insert_check(self):
         """
         Checks if the insertion we make
@@ -33,16 +21,14 @@ class GameLogic():
         to put a new a chip or is there a chip already there
         """
 
-        row_num = self._selection[0] -1
-        column_num = self._selection[1] -1
+        row_num = int(self._selection[0]) -1
+        column_num = int(self._selection[1]) -1
         current_turn = self._turn
         while True:
             if self._board[row_num][column_num] == NONE:
-                print("Valid")
-                self._board[row_num][column_num] = current_turn
-                return self._board
+                #self._board[row_num][column_num] = current_turn
+                return True
             elif self._board[row_num][column_num] == WHITE or self._board[row_num][column_num] == BLACK:
-                print("Invalid")
                 return False
 
 
@@ -55,16 +41,31 @@ class GameLogic():
         you are trying to put in and change everything
         in between to your color!!
         """
-        row_num = self._selection[0] - 1
-        column_num = self._selection[1] - 1
+        row_num = int(self._selection[0]) - 1
+        column_num = int(self._selection[1]) - 1
         current_turn = self._turn
+
+        if self.insert_check() == True:
+            while True:
+                count = 1
+                for obj in self._board[row_num]:
+                    if self._board[row_num+count][column_num] == player_turn(current_turn):
+                        count += 1
+                    else:
+                        self._board[row_num][column_num] = current_turn
+                print("Valid")
+                break
+
 
         while True:
             count = 1
             for obj in self._board[column_num]:
-                if self._board[row_num+count][column_num] == player_turn(current_turn):
-                    self._board[row_num+count][column_num] = current_turn
-                    count += 1
+                try:
+                    if self._board[row_num+count][column_num] == player_turn(current_turn):
+                        self._board[row_num+count][column_num] = current_turn
+                        count += 1
+                except IndexError:
+                    continue
             for obj in self._board[column_num]:
                 if self._board[row_num-count][column_num] == player_turn(current_turn):
                     self._board[row_num-count][column_num] = current_turn
@@ -76,24 +77,81 @@ class GameLogic():
     def horizontal_check(self):
         """
         """
-        row_num = self._selection[0] - 1
-        column_num = self._selection[1] -1
+        row_num = int(self._selection[0]) - 1
+        column_num = int(self._selection[1]) -1
         current_turn = self._turn
 
+        if self.insert_check() == True:
+            while True:
+                count = 1
+                for obj in self._board[column_num]:
+                    if self._board[row_num][column_num + count] == player_turn(current_turn):
+                        count += 1
+                    else:
+                        self._board[row_num][column_num] = current_turn
+                print("Valid")
+                break
         while True:
             count = 1
             for obj in self._board[row_num]:
-                if self._board[row_num][column_num+count] == player_turn(current_turn):
-                    self._board[row_num][column_num+count] = current_turn
-                    count+=1
+                try:
+                    if self._board[row_num][column_num+count] == player_turn(current_turn):
+                        self._board[row_num][column_num+count] = current_turn
+                        count+=1
+                except IndexError:
+                    continue
             for obj in self._board[row_num]:
                 if self._board[row_num][column_num-count] == player_turn(current_turn):
                     self._board[row_num][column_num-count] = current_turn
                     count +=1
             break
+    def diagonal_check(self):
+        """
+        """
+        row_num = int(self._selection[0]) - 1
+        column_num = int(self._selection[1]) -1
+        current_turn= self._turn
+
+        while True:
+            count = 1
+            for obj in self._board:
+                 try:
+                    if self._board[row_num -count][column_num + count] == player_turn(current_turn):
+                        self._board[row_num - count][column_num + count] = current_turn
+                        count += 1
+                 except IndexError:
+                     continue
+            for obj in self._board:
+                try:
+                    if self._board[row_num + count][column_num - count] == player_turn(current_turn):
+                            self._board[row_num + count][column_num - count] = current_turn
+                            count += 1
+                except IndexError:
+                    continue
+            for obj in self._board:
+                try:
+                    if self._board[row_num + count][column_num + count] == player_turn(current_turn):
+                            self._board[row_num + count][column_num + count] = current_turn
+                            count += 1
+                except IndexError:
+                    continue
+            for obj in self._board:
+                if self._board[row_num - count][column_num - count] == player_turn(current_turn):
+                        self._board[row_num - count][column_num -count] = current_turn
+                        count += 1
+            break
 
 
 
+
+    def valid_move_check(self):
+        """
+        """
+        row_num = int(self._selection[0]) - 1
+        column_num = int(self._selection[1]) -1
+        current_turn= self._turn
+        for obj in self._board:
+            pass
 
 def new_othello_board(INPUTS:list)-> [[str]]:
     """

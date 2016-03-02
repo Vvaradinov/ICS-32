@@ -18,9 +18,7 @@ def insert_input():
     Returns the moves made by
     the user who's turn it is
     """
-    user_input = []
-    for obj in range(2):
-        user_input.append(int(input()))
+    user_input = input().split(" ")
     return user_input
 
 def count_of_chips(board:list):
@@ -37,27 +35,6 @@ def count_of_chips(board:list):
             elif num == Othello_logic.WHITE:
                 count_white += 1
     print("B:",count_black, "W:",count_white)
-
-
-"""
-if __name__ == "__main__":
-    choices1 = starting_inputs()
-    choices = insert_input()
-    game_board = Othello_logic.new_othello_board(choices1)
-    Othello_logic.initial_four_chips(game_board,choices1)
-    game_logic = Othello_logic.GameLogic(game_board,choices1,choices)
-    count_of_chips(game_board)
-    Othello_logic.visual_othello_board(game_board)
-    current_turn = choices1[2]
-    print("Turn:",current_turn)
-    while True:
-        game_logic.insert_check()
-        #game_board = (Othello_logic.insert_check(game_board,choices,current_turn))
-        count_of_chips(game_board)
-        Othello_logic.visual_othello_board(game_board)
-        current_turn = Othello_logic.player_turn(current_turn)
-        print("TURN:",current_turn)
-"""
 
 def start_game():
     """
@@ -80,6 +57,7 @@ def start_game():
             current_turn = Othello_logic.player_turn(current_turn)
         game_logic.horizontal_check()
         game_logic.vertical_check()
+        #game_logic.diagonal_check()
         count_of_chips(game_board)
         Othello_logic.visual_othello_board(game_board)
         print("Turn:",current_turn)
