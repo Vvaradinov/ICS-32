@@ -47,9 +47,10 @@ class GameLogic():
                         if self._board[row_num + count][column_num] != current_turn:
                             count += 1
                         else:
-                            self._board[row_num][column_num] = current_turn
-                            print("Valid")
-                            return True
+                            if self._board[row_num + count][column_num] == current_turn:
+                                self._board[row_num][column_num] = current_turn
+                                print("Valid")
+                                return True
                     except IndexError:
                         break
             break
@@ -70,9 +71,10 @@ class GameLogic():
                     if self._board[row_num- count][column_num ] != current_turn:
                         count += 1
                     else:
-                        self._board[row_num][column_num] = current_turn
-                        print("Valid")
-                        return True
+                        if self._board[row_num - count][column_num] == current_turn:
+                            self._board[row_num][column_num] = current_turn
+                            print("Valid")
+                            return True
             break
 
     def horizontal_valid_plus(self):
@@ -92,9 +94,10 @@ class GameLogic():
                         if self._board[row_num][column_num + count] != current_turn:
                             count += 1
                         else:
-                            self._board[row_num][column_num] = current_turn
-                            print("Valid")
-                            return True
+                            if self._board[row_num][column_num +count] == current_turn:
+                                self._board[row_num][column_num] = current_turn
+                                print("Valid")
+                                return True
                     except IndexError:
                         break
             break
@@ -112,12 +115,14 @@ class GameLogic():
                 while True:
                     if self._board[row_num][column_num - count] == NONE:
                         return False
-                    if self._board[row_num][column_num - count] != current_turn:
+                    if self._board[row_num][column_num - count] == player_turn(current_turn):
                         count += 1
+
                     else:
-                        self._board[row_num][column_num] = current_turn
-                        print("Valid")
-                        return True
+                        if self._board[row_num][column_num -count] == current_turn:
+                            self._board[row_num][column_num] = current_turn
+                            print("Valid")
+                            return True
             break
 
 
@@ -133,25 +138,23 @@ class GameLogic():
         row_num = int(self._selection[0]) - 1
         column_num = int(self._selection[1]) - 1
         current_turn = self._turn
-        while True:
-            count = 1
-            if self.vertical_valid_plus() == True:
-                for obj in self._board[column_num]:
-                        try:
-                            if self._board[row_num+count][column_num] == player_turn(current_turn):
-                                self._board[row_num+count][column_num] = current_turn
-                                count += 1
-                        except IndexError:
-                            break
-
-            count = 1
-            if self.vertical_valid_minus() == True:
-                for obj in self._board[column_num]:
-                        if self._board[row_num-count][column_num] == player_turn(current_turn):
-                            self._board[row_num-count][column_num] = current_turn
+        count = 1
+        if self.vertical_valid_plus() == True:
+            for obj in self._board[column_num]:
+                    try:
+                        if self._board[row_num+count][column_num] == player_turn(current_turn):
+                            self._board[row_num+count][column_num] = current_turn
                             count += 1
+                    except IndexError:
+                        break
+        count = 1
+        if self.vertical_valid_minus() == True:
+            for obj in self._board[column_num]:
+                    if self._board[row_num-count][column_num] == player_turn(current_turn):
+                        self._board[row_num-count][column_num] = current_turn
+                        count += 1
 
-            break
+
 
 
 
@@ -163,24 +166,118 @@ class GameLogic():
         column_num = int(self._selection[1]) -1
         current_turn = self._turn
 
-        while True:
-            count = 1
-            if self.horizontal_valid_plus() == True:
-                for obj in self._board[row_num]:
-                        try:
-                            if self._board[row_num][column_num+ count] == player_turn(current_turn):
-                                self._board[row_num][column_num + count] = current_turn
-                                count += 1
-                        except IndexError:
-                            break
-            count = 1
-            if self.horizontal_valid_minus() == True:
-                for obj in self._board[row_num]:
-                    if self._board[row_num][column_num-count] == player_turn(current_turn):
-                        self._board[row_num][column_num-count] = current_turn
+        count = 1
+        if self.horizontal_valid_plus() == True:
+            for obj in self._board[row_num]:
+                try:
+                    if self._board[row_num][column_num+ count] == player_turn(current_turn):
+                        self._board[row_num][column_num + count] = current_turn
                         count += 1
+                except IndexError:
+                    break
+        count = 1
+        if self.horizontal_valid_minus() == True:
+            for obj in self._board[row_num]:
+                if self._board[row_num][column_num-count] == player_turn(current_turn):
+                    self._board[row_num][column_num-count] = current_turn
+                    count += 1
+
+
+
+
+    def diagonal_valid_minus_plus(self):
+        """
+        """
+        row_num = int(self._selection[0]) -1
+        column_num = int(self._selection[1]) -1
+        current_turn = self._turn
+        count = 1
+        while True:
+            if self.insert_check() == True:
+                while True:
+                    try:
+                        if self._board[row_num - count][column_num + count] == NONE:
+                            return False
+                        if self._board[row_num - count][column_num + count] != current_turn:
+                            count += 1
+                        else:
+                            if self._board[row_num - count][column_num+ count] == current_turn:
+                                self._board[row_num][column_num] = current_turn
+                                print("Valid")
+                                return True
+                    except IndexError:
+                        break
+            break
+    def diagonal_valid_plus_minus(self):
+        """
+        """
+        row_num = int(self._selection[0]) -1
+        column_num = int(self._selection[1]) -1
+        current_turn = self._turn
+        count = 1
+        while True:
+            if self.insert_check() == True:
+                while True:
+                    try:
+                        if self._board[row_num + count][column_num - count] == NONE:
+                            return False
+                        if self._board[row_num + count][column_num - count] != current_turn:
+                            count += 1
+                        else:
+                            if self._board[row_num + count][column_num - count] == current_turn:
+                                self._board[row_num][column_num] = current_turn
+                                print("Valid")
+                                return True
+                    except IndexError:
+                        break
+            break
+    def diagonal_valid_plus_plus(self):
+        """
+        """
+        row_num = int(self._selection[0]) -1
+        column_num = int(self._selection[1]) -1
+        current_turn = self._turn
+        count = 1
+        while True:
+            if self.insert_check() == True:
+                while True:
+                    try:
+                        if self._board[row_num + count][column_num + count] == NONE:
+                            return False
+                        if self._board[row_num + count][column_num + count] != current_turn:
+                            count += 1
+                        else:
+                           if self._board[row_num + count][column_num+ count] == current_turn:
+                                self._board[row_num][column_num] = current_turn
+                                print("Valid")
+                                return True
+                    except IndexError:
+                        break
             break
 
+    def diagonal_valid_minus_minus(self):
+        """
+        """
+        row_num = int(self._selection[0]) -1
+        column_num = int(self._selection[1]) -1
+        current_turn = self._turn
+        count = 1
+        while True:
+            if self.insert_check() == True:
+                while True:
+                    try:
+                        if self._board[row_num - count][column_num - count] == NONE:
+                            return False
+                        if self._board[row_num - count][column_num - count] != current_turn:
+                            count += 1
+                        else:
+                            if self._board[row_num - count][column_num - count] == current_turn:
+                                self._board[row_num][column_num] = current_turn
+                                print("Valid")
+                                return True
+                    except IndexError:
+                        break
+            break
 
 
     def diagonal_check(self):
@@ -190,8 +287,9 @@ class GameLogic():
         column_num = int(self._selection[1]) -1
         current_turn= self._turn
 
-        while True:
-            count = 1
+
+        count = 1
+        if self.diagonal_valid_minus_plus() == True:
             for obj in self._board:
                  try:
                     if self._board[row_num -count][column_num + count] == player_turn(current_turn):
@@ -199,6 +297,7 @@ class GameLogic():
                             count += 1
                  except IndexError:
                      break
+        if self.diagonal_valid_plus_minus() == True:
             for obj in self._board:
                 try:
                     if self._board[row_num + count][column_num - count] == player_turn(current_turn):
@@ -206,6 +305,7 @@ class GameLogic():
                             count += 1
                 except IndexError:
                     break
+        if self.diagonal_valid_plus_plus() == True:
             for obj in self._board:
                 try:
                     if self._board[row_num + count][column_num + count] == player_turn(current_turn):
@@ -213,11 +313,12 @@ class GameLogic():
                             count += 1
                 except IndexError:
                     break
+        if self.diagonal_valid_minus_minus() == True:
             for obj in self._board:
                 if self._board[row_num - count][column_num - count] == player_turn(current_turn):
                         self._board[row_num - count][column_num -count] = current_turn
                         count += 1
-            break
+
 
 
     def is_valid_move(self):
@@ -225,9 +326,15 @@ class GameLogic():
         hor_min = self.horizontal_valid_minus()
         ver_plus = self.vertical_valid_plus()
         ver_minus = self.vertical_valid_minus()
+        diagonal_plus = self.diagonal_valid_plus_plus()
+        diagonal_minus = self.diagonal_valid_minus_minus()
+        diagonal_plus_minus = self.diagonal_valid_plus_minus()
+        diagonal_minus_plus = self.diagonal_valid_minus_plus()
         if hor_plus  == True or hor_min == True:
             return True
-        elif ver_minus == True or ver_plus == True:
+        if ver_minus == True or ver_plus == True:
+            return True
+        if diagonal_minus == True or diagonal_minus_plus == True or diagonal_plus == True or diagonal_plus_minus == True:
             return True
         else:
             return False

@@ -51,15 +51,14 @@ def start_game():
     while True:
         choices = insert_input()
         game_logic = Othello_logic.GameLogic(game_board,current_turn,choices)
-        if game_logic.is_valid_move() == True:
-            game_logic.horizontal_check()
-            game_logic.vertical_check()
-            current_turn = Othello_logic.player_turn(current_turn)
-            count_of_chips(game_board)
-            Othello_logic.visual_othello_board(game_board)
-            print("Turn:",current_turn)
-        else:
-            print("Invalid")
+        #if game_logic.is_valid_move() == True:
+        game_logic.vertical_check()
+        game_logic.horizontal_check()
+        game_logic.diagonal_check()
+        current_turn = Othello_logic.player_turn(current_turn)
+        count_of_chips(game_board)
+        Othello_logic.visual_othello_board(game_board)
+        print("Turn:",current_turn)
 
 
 
