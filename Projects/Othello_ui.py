@@ -36,11 +36,9 @@ def count_of_chips(board:list):
                 count_white += 1
     print("B:",count_black, "W:",count_white)
 
-def start_game():
-    """
-    Initiates the game with the UI
-    """
 
+
+def start_game():
     choices1 = starting_inputs()
     game_board = Othello_logic.new_othello_board(choices1)
     Othello_logic.initial_four_chips(game_board,choices1)
@@ -49,16 +47,27 @@ def start_game():
     current_turn = choices1[2]
     print("Turn:",current_turn)
     while True:
-        choices = insert_input()
-        game_logic = Othello_logic.GameLogic(game_board,current_turn,choices)
-        #if game_logic.is_valid_move() == True:
-        game_logic.vertical_check()
-        game_logic.horizontal_check()
-        game_logic.diagonal_check()
-        current_turn = Othello_logic.player_turn(current_turn)
-        count_of_chips(game_board)
-        Othello_logic.visual_othello_board(game_board)
-        print("Turn:",current_turn)
+        if Othello_logic.full_board(game_board) == True:
+            choices = insert_input()
+            game_logic = Othello_logic.GameLogic(game_board,current_turn,choices,choices1[4])
+            if game_logic.check_validity(choices[0],choices[1],current_turn) == True and game_logic.insert_check() == True:
+                if game_logic.check_both_players() == True:
+                    print("Valid")
+                    game_logic.flip_vertical()
+                    game_logic.flip_horizontal()
+                    game_logic.flip_diagonal()
+                    current_turn = Othello_logic.player_turn(current_turn)
+                    count_of_chips(game_board)
+                    Othello_logic.visual_othello_board(game_board)
+                    print("Turn:",current_turn)
+                else:
+                    Othello_logic.winner(game_board,choices1[4])
+                    break
+            else:
+                print("Invalid")
+        else:
+            Othello_logic.winner(game_board,choices1[4])
+            break
 
 
 
@@ -66,7 +75,6 @@ def start_game():
 
 if __name__ == "__main__":
     start_game()
-
 
 
 
