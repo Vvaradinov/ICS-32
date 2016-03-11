@@ -314,7 +314,7 @@ class GameLogic():
                 winner = "None"
             else:
                 winner = "Black"
-        print( "Winner: "+ winner)
+            print( "Winner: "+ winner)
         return("Winner: " + winner)
 
     def full_board(self):

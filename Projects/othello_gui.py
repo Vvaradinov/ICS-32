@@ -26,12 +26,11 @@ class Othello_gui():
         self._canvas.bbox('<Button-1>',self.game_rules)
         self._rules_text = tkinter.StringVar()
         self._rules_text.set("GAME RULES - ENTER THE 5 INPUTS IN THE BOX AND CLICK THE BUTTON TO CONTINUE "'\n'
-                             "NOTE: THIS GUI VERSION OF THE GAME ASSUMES THE USER IS FAMILIAR WITH THE GAME RULES."'\n'
                              "1. CLICK WITH THE LEFT MOUSE BUTTON TO PLACE A CHIP" '\n'
                              "2. IF THE CURRENT PLAYER TURN DOES NOT HAVE A LEGAL MOVE BUT THE OPPOSITE COLOUR HAS A TURN:"'\n'
-                             "CLICK THE RIGHT MOUSE BUTTON ON THE BOX TO SWITCH PLAYERS"'\n'
+                             "WHEN YOU CLICK AT THE INVALID SPOT A POP UP WILL APPEAR WITH INSTRUCTIONS!!"'\n'
                              "3. EVERYTHING ELSE IS AUTOMATIC"'\n'
-                             "ENJOY YOUR GAME. CLICK ANYWHERE TO CONTINUE TO THE INPUT SCREEN")
+                             "ENJOY YOUR GAME. CLICK ANYWHERE TO CONTINUE WITH THE INPUT")
         self._rules = tkinter.Button(master = self._root_window,textvariable= self._rules_text,command= lambda :self.game_rules(),font= ("Helvetica Black",15))
         self._rules.grid(row=0,column=0,sticky= tkinter.W)
 
@@ -119,7 +118,10 @@ class Othello_gui():
             self.create_shapes()
             self.update_score_and_turn()
             self._game_obj._turn = self._game_obj.player_turn()
-
+        else:
+            self._pop_up_box = tkinter.Toplevel()
+            self._pop_message = tkinter.Message(self._pop_up_box, text="Current colour has no valid move please close this application and right click to change the colour").pack()
+            self._pop_button = tkinter.Button(self._pop_up_box, text= "Dismiss",command = self._pop_up_box.destroy).pack()
 
         if self._game_obj.full_board() == True or self._game_obj.check_both_players() == False:
             player_won = self._game_obj.winner()
@@ -226,6 +228,8 @@ class Othello_gui():
         for obj in self._WHITE:
             self._canvas.create_oval(obj[0]*width, obj[1]*height, obj[2]*width, obj[3]*height, fill= 'white')
 
+    def run(self):
+        self._root_window.mainloop()
 
 if __name__ == "__main__":
-    Othello_gui()._root_window.mainloop()
+    Othello_gui().run()
